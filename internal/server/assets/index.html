@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HerbariumGraph · 原生图存储</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>Herbarium<span>Graph</span></h1>
+  <div class="stats" id="stats"></div>
+  <div class="actions">
+    <button id="btn-demo" class="ghost">载入示例数据</button>
+    <button id="btn-compact" class="primary">离线整理</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="graph" class="active">图浏览</button>
+  <button data-tab="records">记录文件</button>
+  <button data-tab="groups">稠密点关系分组</button>
+  <button data-tab="query">查询展开过程</button>
+</nav>
+
+<main>
+  <section id="tab-graph" class="tab active">
+    <div class="split">
+      <aside class="panel">
+        <div class="field"><label>标签过滤</label><select id="label-filter"></select></div>
+        <div class="field"><label>搜索节点</label><input id="node-search" placeholder="id 或属性值"></div>
+        <ul id="node-list" class="list"></ul>
+      </aside>
+      <div class="panel grow" id="node-detail">
+        <p class="muted">从左侧选择一个节点。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-records" class="tab">
+    <div class="split">
+      <aside class="panel">
+        <h3>文件页</h3>
+        <div class="seg">
+          <button data-file="nodes" class="active">nodes.dat</button>
+          <button data-file="rels">rels.dat</button>
+        </div>
+        <div id="pages" class="pages"></div>
+      </aside>
+      <div class="panel grow" id="slot-detail">
+        <p class="muted">选择一页或输入记录号查看解码后的定长记录。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-groups" class="tab">
+    <div class="split">
+      <aside class="panel">
+        <div class="field"><label>节点 id</label><input id="group-node" type="number" value="0"></div>
+        <button id="group-load" class="primary">查看分组</button>
+        <p class="hint">密度阈值以上的节点按关系类型 + 方向拆成多条链，每组单独一条，只看某一类关系时不扫别的链。</p>
+      </aside>
+      <div class="panel grow" id="group-detail"><p class="muted">输入一个稠密节点查看它的链。</p></div>
+    </div>
+  </section>
+
+  <section id="tab-query" class="tab">
+    <div class="split">
+      <aside class="panel">
+        <div class="field"><label>起点节点</label><input id="q-from" type="number" value="0"></div>
+        <div class="field"><label>终点节点</label><input id="q-to" type="number" value="0"></div>
+        <div class="field"><label>方向</label>
+          <select id="q-dir"><option value="both">双向</option><option value="out">出</option><option value="in">入</option></select>
+        </div>
+        <div class="field"><label>最大深度</label><input id="q-depth" type="number" value="4"></div>
+        <div class="field"><label>关系类型(逗号分隔)</label><input id="q-types" placeholder="collected,citedBy"></div>
+        <div class="field"><label>最少关系数(计数过滤)</label><input id="q-min" type="number" value="0"></div>
+        <label class="check"><input id="q-rels" type="checkbox" checked> 返回经过的关系</label>
+        <button id="q-run" class="primary">展开路径</button>
+      </aside>
+      <div class="panel grow" id="query-detail"><p class="muted">输入起点和终点，查看带展开过程的路径枚举。</p></div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>
